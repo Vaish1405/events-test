@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="../eventsAccessible.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.0.8/dist/css/splide.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.0.8/dist/js/splide.min.js"></script>
+
+  <title>ARIA Events Carousel</title>
+</head>
+
+<body>
+  <section id="image-carousel"
+    class="splide"
+    role="group"
+    aria-roledescription="carousel"
+    aria-label="Upcoming CSUN Events">
+    
+    <div class="splide__track" id="image-carousel-track" role="region" aria-live="polite">
+      <ul class="splide__list">
+        {% for event in e %}
+        <li class="splide__slide"
+            role="group"
+            aria-roledescription="slide"
+            aria-label="{{ loop.index }} of {{ e|length }}">
+          <a
+            style="all: unset;"
+            class="event__link"
+            href="{{ event.url }}"
+            target="_blank"
+            data-title="{{ event.title }}"
+            data-full="{{ event.title }}. Time: {{ event.timeSt }} - {{ event.timeEn }}. Location: {{ event.location }}.">
+            
+            <div class="box card-select">
+              <img src="{{ url }}images/{{ event.photo }}" alt="{{ event.title }} image" />
+              <div class="overlay"></div>
+              <div class="h3">
+                <span class="title" id="event-title-{{ loop.index }}">{{ event.title }}</span>
+              </div>
+              <div id="details">
+                <div id="date">{{ event.date }}</div>
+                <div id="time"><strong>Time: </strong>{{ event.timeSt }} - {{ event.timeEn }}</div>
+                <div id="location"><strong>Location: </strong>{{ event.location }}</div>
+              </div>
+            </div>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="splide__arrows">
+      <button class="splide__arrow splide__arrow--prev"
+        type="button"
+        aria-controls="image-carousel-track"
+        aria-label="Previous slide">
+        <span>&#10094;</span>
+      </button>
+      <button class="splide__arrow splide__arrow--next"
+        type="button"
+        aria-controls="image-carousel-track"
+        aria-label="Next slide">
+        <span>&#10095;</span>
+      </button>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const splide = new Splide('.splide', {
+        pagination: false,
+        slideFocus: false,
+        waitForTransition: false,
+      }).mount();
+
+      const slides = document.querySelectorAll('.splide__slide');
+
+      function updateLiveRegion(newIndex) {
+        slides.forEach((slide, i) => {
+          const link = slide.querySelector('.event__link');
+          if (!link) return;
+          const title = link.dataset.title;
+          const full = link.dataset.full;
+
+          if (i === newIndex) {
+            link.setAttribute('aria-label', title);
+            link.setAttribute('aria-live', 'polite');
+          } else {
+            link.removeAttribute('aria-live');
+            link.removeAttribute('aria-label');
+          }
+        });
+      }
+
+      function focusActiveSlideIfEdge() {
+        const index = splide.index;
+        const total = splide.length;
+        if (index === 0 || index === total - 1) {
+          const slide = splide.Components.Slides.getAt(index).slide;
+          const link = slide?.querySelector('.event__link');
+          if (link) link.focus({ preventScroll: true });
+        }
+      }
+
+      splide.on('moved', function (newIndex) {
+        updateLiveRegion(newIndex);
+        setTimeout(focusActiveSlideIfEdge, 50);
+      });
+
+      slides.forEach((slide) => {
+        const link = slide.querySelector('.event__link');
+        if (!link) return;
+        const full = link.dataset.full;
+        const title = link.dataset.title;
+
+        link.addEventListener('focus', () => {
+          link.setAttribute('aria-label', full);
+        });
+
+        link.addEventListener('blur', () => {
+          if (!link.classList.contains('is-active')) {
+            link.setAttribute('aria-label', title);
+          }
+        });
+      });
+
+      splide.emit('moved', splide.index);
+    });
+  </script>
+</body>
+
+</html>
