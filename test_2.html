@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +9,19 @@
   <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.0.8/dist/js/splide.min.js"></script>
 
   <title>Events Carousel</title>
+
+  <style>
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      border: 0;
+      padding: 0;
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+    }
+  </style>
 </head>
 
 <body>
@@ -18,26 +30,18 @@
     role="group"
     aria-roledescription="carousel"
     aria-label="Upcoming CSUN Events">
-    
+
     <div class="splide__track" id="image-carousel-track" role="region" aria-live="polite">
       <ul class="splide__list">
-        
-        <li class="splide__slide"
-            role="group"
-            aria-roledescription="slide"
-            aria-label="1 of 5">
-          <a
-            style="all: unset;"
-            class="event__link"
-            href="https://example.com/event1"
-            target="_blank">
-            
+        <!-- Slide 1 -->
+        <li class="splide__slide" role="group" aria-roledescription="slide" aria-label="1 of 5">
+          <a style="all: unset;" class="event__link" href="https://example.com/event1" target="_blank"
+            data-title="Matador Morning Bash"
+            data-full="Matador Morning Bash. Time: 09:00 AM - 11:00 AM. Location: CSUN Library Lawn.">
             <div class="box card-select">
-              <img src="https://itdocs.csun.edu/mobile-redesign/images/lib.png"/>
+              <img src="https://itdocs.csun.edu/mobile-redesign/images/lib.png" alt="Matador Morning Bash image" />
               <div class="overlay"></div>
-              <div class="h3">
-                <span class="title" id="event-title-1">Matador Morning Bash</span>
-              </div>
+              <div class="h3"><span class="title">Matador Morning Bash</span></div>
               <div id="details">
                 <div id="date">JUL 10</div>
                 <div id="time"><strong>Time: </strong>09:00 AM - 11:00 AM</div>
@@ -46,23 +50,16 @@
             </div>
           </a>
         </li>
-        
-        <li class="splide__slide"
-            role="group"
-            aria-roledescription="slide"
-            aria-label="2 of 5">
-          <a
-            style="all: unset;"
-            class="event__link"
-            href="https://example.com/event2"
-            target="_blank">
-            
+
+        <!-- Slide 2 -->
+        <li class="splide__slide" role="group" aria-roledescription="slide" aria-label="2 of 5">
+          <a style="all: unset;" class="event__link" href="https://example.com/event2" target="_blank"
+            data-title="Tech Career Fair"
+            data-full="Tech Career Fair. Time: 12:00 PM - 04:00 PM. Location: USU Grand Salon.">
             <div class="box card-select">
-              <img src="https://itdocs.csun.edu/mobile-redesign/images/usu.png"/>
+              <img src="https://itdocs.csun.edu/mobile-redesign/images/usu.png" alt="Tech Career Fair image" />
               <div class="overlay"></div>
-              <div class="h3">
-                <span class="title" id="event-title-2">Tech Career Fair</span>
-              </div>
+              <div class="h3"><span class="title">Tech Career Fair</span></div>
               <div id="details">
                 <div id="date">JUL 12</div>
                 <div id="time"><strong>Time: </strong>12:00 PM - 04:00 PM</div>
@@ -71,23 +68,16 @@
             </div>
           </a>
         </li>
-        
-        <li class="splide__slide"
-            role="group"
-            aria-roledescription="slide"
-            aria-label="3 of 5">
-          <a
-            style="all: unset;"
-            class="event__link"
-            href="https://example.com/event3"
-            target="_blank">
-            
+
+        <!-- Slide 3 -->
+        <li class="splide__slide" role="group" aria-roledescription="slide" aria-label="3 of 5">
+          <a style="all: unset;" class="event__link" href="https://example.com/event3" target="_blank"
+            data-title="AI in Education Panel"
+            data-full="AI in Education Panel. Time: 03:00 PM - 04:30 PM. Location: Online.">
             <div class="box card-select">
-              <img src="https://itdocs.csun.edu/mobile-redesign/images/default.png" />
+              <img src="https://itdocs.csun.edu/mobile-redesign/images/default.png" alt="AI in Education Panel image" />
               <div class="overlay"></div>
-              <div class="h3">
-                <span class="title" id="event-title-3">AI in Education Panel</span>
-              </div>
+              <div class="h3"><span class="title">AI in Education Panel</span></div>
               <div id="details">
                 <div id="date">JUL 15</div>
                 <div id="time"><strong>Time: </strong>03:00 PM - 04:30 PM</div>
@@ -96,23 +86,16 @@
             </div>
           </a>
         </li>
-        
-        <li class="splide__slide"
-            role="group"
-            aria-roledescription="slide"
-            aria-label="4 of 5">
-          <a
-            style="all: unset;"
-            class="event__link"
-            href="https://example.com/event4"
-            target="_blank">
-            
+
+        <!-- Slide 4 -->
+        <li class="splide__slide" role="group" aria-roledescription="slide" aria-label="4 of 5">
+          <a style="all: unset;" class="event__link" href="https://example.com/event4" target="_blank"
+            data-title="Clubs & Orgs Info Night"
+            data-full="Clubs & Orgs Info Night. Time: 05:00 PM - 06:30 PM. Location: Oviatt Lawn.">
             <div class="box card-select">
-              <img src="https://itdocs.csun.edu/mobile-redesign/images/lib.png" />
+              <img src="https://itdocs.csun.edu/mobile-redesign/images/lib.png" alt="Clubs & Orgs Info Night image" />
               <div class="overlay"></div>
-              <div class="h3">
-                <span class="title" id="event-title-4">Clubs & Orgs Info Night</span>
-              </div>
+              <div class="h3"><span class="title">Clubs & Orgs Info Night</span></div>
               <div id="details">
                 <div id="date">JUL 17</div>
                 <div id="time"><strong>Time: </strong>05:00 PM - 06:30 PM</div>
@@ -121,23 +104,16 @@
             </div>
           </a>
         </li>
-        
-        <li class="splide__slide"
-            role="group"
-            aria-roledescription="slide"
-            aria-label="5 of 5">
-          <a
-            style="all: unset;"
-            class="event__link"
-            href="https://example.com/event5"
-            target="_blank">
-            
+
+        <!-- Slide 5 -->
+        <li class="splide__slide" role="group" aria-roledescription="slide" aria-label="5 of 5">
+          <a style="all: unset;" class="event__link" href="https://example.com/event5" target="_blank"
+            data-title="Sustainability Meetup"
+            data-full="Sustainability Meetup. Time: 10:00 AM - 11:30 AM. Location: CSUN Sustainability Center.">
             <div class="box card-select">
-              <img src="https://itdocs.csun.edu/mobile-redesign/images/usu.png" />
+              <img src="https://itdocs.csun.edu/mobile-redesign/images/usu.png" alt="Sustainability Meetup image" />
               <div class="overlay"></div>
-              <div class="h3">
-                <span class="title" id="event-title-5">Sustainability Meetup</span>
-              </div>
+              <div class="h3"><span class="title">Sustainability Meetup</span></div>
               <div id="details">
                 <div id="date">JUL 20</div>
                 <div id="time"><strong>Time: </strong>10:00 AM - 11:30 AM</div>
@@ -146,7 +122,6 @@
             </div>
           </a>
         </li>
-        
       </ul>
     </div>
 
@@ -166,6 +141,9 @@
     </div>
   </section>
 
+  <!-- 💬 Hidden Live Region for screen readers -->
+  <div id="event-live-region" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const splide = new Splide('.splide', {
@@ -175,22 +153,16 @@
       }).mount();
 
       const slides = document.querySelectorAll('.splide__slide');
+      const liveRegion = document.getElementById('event-live-region');
 
       function updateLiveRegion(newIndex) {
-        slides.forEach((slide, i) => {
-          const link = slide.querySelector('.event__link');
-          if (!link) return;
-          const title = link.dataset.title;
-          const full = link.dataset.full;
+        const slide = slides[newIndex];
+        const link = slide.querySelector('.event__link');
+        const title = link?.dataset.title;
 
-          if (i === newIndex) {
-            link.setAttribute('aria-label', title);
-            link.setAttribute('aria-live', 'polite');
-          } else {
-            link.removeAttribute('aria-live');
-            link.removeAttribute('aria-label');
-          }
-        });
+        if (liveRegion && title) {
+          liveRegion.textContent = title;
+        }
       }
 
       function focusActiveSlideIfEdge() {
@@ -208,26 +180,23 @@
         setTimeout(focusActiveSlideIfEdge, 50);
       });
 
+      // Set full aria-label on focus
       slides.forEach((slide) => {
         const link = slide.querySelector('.event__link');
-        if (!link) return;
-        const full = link.dataset.full;
-        const title = link.dataset.title;
+        const full = link?.dataset.full;
 
         link.addEventListener('focus', () => {
           link.setAttribute('aria-label', full);
         });
 
         link.addEventListener('blur', () => {
-          if (!link.classList.contains('is-active')) {
-            link.setAttribute('aria-label', title);
-          }
+          link.removeAttribute('aria-label');
         });
       });
 
+      // Init live region
       splide.emit('moved', splide.index);
     });
   </script>
 </body>
-
 </html>
