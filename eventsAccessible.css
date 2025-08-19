@@ -7,6 +7,17 @@ body {
   margin: auto;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
 #image-carousel {
   width: 100%;
 }
@@ -100,7 +111,7 @@ a {
   letter-spacing: 2px;
   padding-right: 3%;
   box-sizing: border-box;
-  width: 100%
+  width: 100%;
 }
 
 .title {
@@ -112,7 +123,7 @@ a {
   text-overflow: ellipsis;
 }
 
-#details {
+.details {
   font-family: "Montserrat", sans-serif;
   width: 90%;
   height: 54%;
@@ -126,7 +137,7 @@ a {
   line-height: normal;
 }
 
-#date {
+.date {
   font-family: "Montserrat", sans-serif;
   position: relative;
   top: 0%;
@@ -136,7 +147,7 @@ a {
   margin-bottom: 2%;
 }
 
-#time {
+.time {
   font-family: "Montserrat", sans-serif;
   position: relative;
   letter-spacing: 0.3px;
@@ -144,7 +155,7 @@ a {
   margin-bottom: 0%;
 }
 
-#location {
+.location {
   font-family: "Montserrat", sans-serif;
   position: relative;
   margin-top: 0%;
@@ -154,8 +165,10 @@ a {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
 
-  @supports (-webkit-line-clamp: 1) {
+@supports (-webkit-line-clamp: 1) {
+  .location {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: initial;
@@ -184,15 +197,15 @@ a {
     font-size: 1.3em;
   }
 
-  #date {
+  .date {
     font-size: 30px;
   }
 
-  #time {
+  .time {
     font-size: 1.06em;
   }
 
-  #location {
+  .location {
     font-size: 1.06em;
   }
 }
@@ -215,15 +228,15 @@ a {
     font-size: 1.15em;
   }
 
-  #date {
+  .date {
     font-size: 27.5px;
   }
 
-  #time {
+  .time {
     font-size: 1.04em;
   }
 
-  #location {
+  .location {
     font-size: 1.04em;
   }
 }
@@ -254,16 +267,16 @@ a {
     font-size: 1em;
   }
 
-  #date {
+  .date {
     font-size: 25px;
   }
 
-  #time {
+  .time {
     font-size: 0.8em;
     width: 100% !important;
   }
 
-  #location {
+  .location {
     font-size: 0.8em;
   }
 }
@@ -294,16 +307,16 @@ a {
     font-size: 1em;
   }
 
-  #date {
+  .date {
     font-size: 25px;
   }
 
-  #time {
+  .time {
     font-size: 0.8em;
     width: 100% !important;
   }
 
-  #location {
+  .location {
     font-size: 0.8em;
   }
 }

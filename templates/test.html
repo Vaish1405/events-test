@@ -19,7 +19,7 @@
     aria-roledescription="carousel"
     aria-label="Upcoming CSUN Events">
     
-    <div class="splide__track" id="image-carousel-track" role="region" aria-live="polite">
+    <div class="splide__track" id="image-carousel-track" role="region">
       <ul class="splide__list">
         {% for event in e %}
         <li class="splide__slide"
@@ -31,19 +31,20 @@
             class="event__link"
             href="{{ event.url }}"
             target="_blank"
+            aria-label="{{ event.title }}"
             data-title="{{ event.title }}"
             data-full="{{ event.title }}. Time: {{ event.timeSt }} - {{ event.timeEn }}. Location: {{ event.location }}.">
             
-            <div class="box card-select">
+            <div class="box card-select" aria-hidden="true">
               <img src="{{ url }}images/{{ event.photo }}" alt="{{ event.title }} image" />
               <div class="overlay"></div>
               <div class="h3">
                 <span class="title" id="event-title-{{ loop.index }}">{{ event.title }}</span>
               </div>
-              <div id="details">
-                <div id="date">{{ event.date }}</div>
-                <div id="time"><strong>Time: </strong>{{ event.timeSt }} - {{ event.timeEn }}</div>
-                <div id="location"><strong>Location: </strong>{{ event.location }}</div>
+              <div class="details">
+                <div class="date">{{ event.date }}</div>
+                <div class="time"><strong>Time: </strong>{{ event.timeSt }} - {{ event.timeEn }}</div>
+                <div class="location"><strong>Location: </strong>{{ event.location }}</div>
               </div>
             </div>
           </a>
@@ -68,6 +69,8 @@
     </div>
   </section>
 
+  <div id="event-live-region" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const splide = new Splide('.splide', {
@@ -77,37 +80,19 @@
       }).mount();
 
       const slides = document.querySelectorAll('.splide__slide');
+      const liveRegion = document.getElementById('event-live-region');
 
       function updateLiveRegion(newIndex) {
-        slides.forEach((slide, i) => {
-          const link = slide.querySelector('.event__link');
-          if (!link) return;
-          const title = link.dataset.title;
-          const full = link.dataset.full;
-
-          if (i === newIndex) {
-            link.setAttribute('aria-label', title);
-            link.setAttribute('aria-live', 'polite');
-          } else {
-            link.removeAttribute('aria-live');
-            link.removeAttribute('aria-label');
-          }
-        });
-      }
-
-      function focusActiveSlideIfEdge() {
-        const index = splide.index;
-        const total = splide.length;
-        if (index === 0 || index === total - 1) {
-          const slide = splide.Components.Slides.getAt(index).slide;
-          const link = slide?.querySelector('.event__link');
-          if (link) link.focus({ preventScroll: true });
+        const slide = slides[newIndex];
+        const link = slide?.querySelector('.event__link');
+        const title = link?.dataset.title;
+        if (liveRegion && title) {
+          liveRegion.textContent = title;
         }
       }
 
       splide.on('moved', function (newIndex) {
         updateLiveRegion(newIndex);
-        setTimeout(focusActiveSlideIfEdge, 50);
       });
 
       slides.forEach((slide) => {
@@ -121,9 +106,7 @@
         });
 
         link.addEventListener('blur', () => {
-          if (!link.classList.contains('is-active')) {
-            link.setAttribute('aria-label', title);
-          }
+          link.setAttribute('aria-label', title);
         });
       });
 
