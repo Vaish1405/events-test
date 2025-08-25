@@ -193,6 +193,11 @@
 
       const slides = document.querySelectorAll('.splide__slide');
       const liveRegion = document.getElementById('event-live-region');
+      const prevButton = document.querySelector('.splide__arrow--prev');
+      const nextButton = document.querySelector('.splide__arrow--next');
+
+      // Track if we're moving focus due to edge navigation to prevent duplicate announcements
+      let isEdgeNavigation = false;
 
       function updateLiveRegion(newIndex) {
         const slide = slides[newIndex];
@@ -203,8 +208,69 @@
         }
       }
 
+      function focusActiveSlideIfEdge() {
+        const index = splide.index;
+        const total = splide.length;
+        
+        // Check if we're at the edges and the corresponding button is disabled
+        const isAtFirstSlide = index === 0;
+        const isAtLastSlide = index === total - 1;
+        const prevButtonDisabled = prevButton.disabled;
+        const nextButtonDisabled = nextButton.disabled;
+
+        // Move focus to slide content if we're at an edge and the button is disabled
+        if ((isAtFirstSlide && prevButtonDisabled) || (isAtLastSlide && nextButtonDisabled)) {
+          const slide = splide.Components.Slides.getAt(index).slide;
+          const link = slide?.querySelector('.event__link');
+          if (link) {
+            isEdgeNavigation = true;
+            link.focus({ preventScroll: true });
+            
+            // Reset the flag after a short delay to allow focus event to process
+            setTimeout(() => {
+              isEdgeNavigation = false;
+            }, 100);
+          }
+        }
+      }
+
+      // Monitor arrow button state changes
+      function checkArrowButtonStates() {
+        const index = splide.index;
+        const total = splide.length;
+        
+        // Check if buttons should be disabled
+        const shouldPrevBeDisabled = index === 0;
+        const shouldNextBeDisabled = index === total - 1;
+        
+        // Update button states
+        if (shouldPrevBeDisabled && !prevButton.disabled) {
+          prevButton.disabled = true;
+          // If focus was on the prev button, move it to slide content
+          if (document.activeElement === prevButton) {
+            focusActiveSlideIfEdge();
+          }
+        } else if (!shouldPrevBeDisabled && prevButton.disabled) {
+          prevButton.disabled = false;
+        }
+        
+        if (shouldNextBeDisabled && !nextButton.disabled) {
+          nextButton.disabled = true;
+          // If focus was on the next button, move it to slide content
+          if (document.activeElement === nextButton) {
+            focusActiveSlideIfEdge();
+          }
+        } else if (!shouldNextBeDisabled && nextButton.disabled) {
+          nextButton.disabled = false;
+        }
+      }
+
       splide.on('moved', function (newIndex) {
         updateLiveRegion(newIndex);
+        setTimeout(() => {
+          checkArrowButtonStates();
+          focusActiveSlideIfEdge();
+        }, 50);
       });
 
       slides.forEach((slide) => {
@@ -215,6 +281,13 @@
 
         link.addEventListener('focus', () => {
           link.setAttribute('aria-label', full);
+          
+          // Only announce via live region if this is not edge navigation
+          if (!isEdgeNavigation) {
+            if (liveRegion && title) {
+              liveRegion.textContent = title;
+            }
+          }
         });
 
         link.addEventListener('blur', () => {
@@ -222,6 +295,8 @@
         });
       });
 
+      // Initialize button states and live region
+      checkArrowButtonStates();
       splide.emit('moved', splide.index);
     });
   </script>
